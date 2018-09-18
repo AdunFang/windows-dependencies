@@ -297,6 +297,7 @@
     <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\singleton-service.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\sound-player.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\style-monitor.cpp" />
+    <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\thread-settings.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\tilt-sensor.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\lifecycle-controller.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\video-player.cpp" />
@@ -440,6 +441,7 @@
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\text\text-abstraction\font-client-plugin-impl.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\text\text-abstraction\segmentation-impl.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\text\text-abstraction\shaping-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-adaptor\dali\internal\thread\common\thread-settings-impl.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\trace\common\trace-factory.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\trace\common\trace-manager-impl.cpp" />
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\video\common\video-player-impl.cpp" />

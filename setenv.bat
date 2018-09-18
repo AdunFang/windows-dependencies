@@ -9,4 +9,6 @@ setx DALI_APPLICATION_PACKAGE %appPackage:\=/%
 setx DALI_WINDOW_WIDTH 1920
 setx DALI_WINDOW_HEIGHT 1080
 
+cd ..
+setx DemoRes %cd%\demo\csharp-demo\res
 @pause

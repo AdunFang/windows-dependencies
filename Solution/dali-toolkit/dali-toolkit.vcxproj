@@ -301,6 +301,7 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\image-loader\atlas-upload-observer.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\image-loader\image-atlas.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\image-loader\texture-manager.cpp" />
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\grid.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\vbox-layout.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\linear-layout.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-item-impl.cpp" />
@@ -330,6 +331,8 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\builder\style.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\builder\tree-node-manipulator.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\builder\replacement.cpp" />
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\grid-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\grid-locations.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\vbox-layout-impl.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-item-data-impl.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-group-data-impl.cpp" />
@@ -351,6 +354,7 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\gradient\radial-gradient.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\animated-gradient\animated-gradient-visual.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\image-atlas-manager.cpp" />
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\image-visual-shader-factory.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\image\image-visual.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\mesh\mesh-visual.cpp" />
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\npatch-loader.cpp" />

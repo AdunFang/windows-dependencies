@@ -288,6 +288,7 @@
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\conditional-wait.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\mutex.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\thread.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\update\update-proxy.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\bitmap.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\core.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\debug.cpp" />
@@ -308,6 +309,8 @@
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\tap-gesture-event.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\touch-event-combiner.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\touch-event-integ.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\update\manager\frame-callback-processor.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\update\manager\update-proxy-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\actors\actor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\actors\camera-actor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\actors\custom-actor.cpp" />

@@ -118,6 +118,7 @@
       <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Cdecl</CallingConvention>
     </ClCompile>
     <ClCompile Include="semaphore.cpp" />
+    <ClCompile Include="thread.cpp" />
     <ClCompile Include="time-api.cpp" />
     <ClCompile Include="Win32WindowSystem.cpp">
       <CallingConvention Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StdCall</CallingConvention>

@@ -547,6 +547,12 @@
     <ClCompile Include="..\..\..\dali-adaptor\dali\internal\imaging\windows\curl-environment-win.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\dali-adaptor\dali\devel-api\adaptor-framework\thread-settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-adaptor\dali\internal\thread\common\thread-settings-impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

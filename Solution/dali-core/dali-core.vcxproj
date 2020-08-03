@@ -30,7 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -275,19 +275,25 @@
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\animation\animation-devel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\animation\path-constrainer.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\common\hash.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\common\singleton-service.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\common\stage-devel.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\common\stage.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\events\hit-test-algorithm.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\events\key-event-devel.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\events\long-press-gesture-detector-devel.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\events\rotation-gesture-detector.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\events\rotation-gesture.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\events\touch-data-devel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\images\distance-field.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\devel-api\images\texture-set-image.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\devel-api\images\nine-patch-image.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\images\pixel-data-devel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\object\handle-devel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\object\csharp-type-registry.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\rendering\frame-buffer-devel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\scripting\scripting.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\signals\signal-delegate.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\conditional-wait.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\mutex.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\thread-pool.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\threading\thread.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\update\frame-callback-interface.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\devel-api\update\update-proxy.cpp" />
@@ -300,21 +306,37 @@
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\scene.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\lockless-buffer.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\event.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\gesture-event.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\hover-event-integ.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\key-event-integ.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\long-press-gesture-event.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\wheel-event-integ.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\multi-point-event-integ.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\pan-gesture-event.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\pinch-gesture-event.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\point.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\tap-gesture-event.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\touch-event-combiner.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\integration-api\events\touch-event-integ.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\common\base-object-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\common\scene-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\render\renderers\render-surface-frame-buffer.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\render\renderers\render-texture-frame-buffer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\gesture-event.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\long-press-gesture\long-press-gesture-detector-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\long-press-gesture\long-press-gesture-event.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\long-press-gesture\long-press-gesture-processor.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\long-press-gesture\long-press-gesture-recognizer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pan-gesture\pan-gesture-detector-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pan-gesture\pan-gesture-event.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pan-gesture\pan-gesture-processor.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pan-gesture\pan-gesture-recognizer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pinch-gesture\pinch-gesture-detector-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pinch-gesture\pinch-gesture-event.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pinch-gesture\pinch-gesture-processor.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pinch-gesture\pinch-gesture-recognizer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\rotation-gesture\rotation-gesture-detector-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\rotation-gesture\rotation-gesture-processor.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\rotation-gesture\rotation-gesture-recognizer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\tap-gesture\tap-gesture-detector-impl.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\tap-gesture\tap-gesture-event.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\tap-gesture\tap-gesture-processor.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\tap-gesture\tap-gesture-recognizer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\render\renderers\render-frame-buffer.cpp" />
+    <ClCompile Include="..\..\..\dali-core\dali\internal\update\common\scene-graph-scene.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\update\manager\frame-callback-processor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\update\manager\scene-graph-frame-callback.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\update\manager\update-proxy-impl.cpp" />
@@ -335,7 +357,6 @@
     <ClCompile Include="..\..\..\dali-core\dali\public-api\common\dali-common.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\common\dali-vector.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\common\extents.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\common\stage.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\events\gesture.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\events\gesture-detector.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\events\hover-event.cpp" />
@@ -352,14 +373,8 @@
     <ClCompile Include="..\..\..\dali-core\dali\public-api\events\touch-point.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\events\touch-event.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\events\touch-data.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\images\image.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\images\pixel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\images\pixel-data.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\images\buffer-image.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\images\frame-buffer-image.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\images\encoded-buffer-image.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\images\resource-image.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\public-api\images\native-image.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\math\compile-time-math.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\math\degree.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\public-api\math\matrix.cpp" />
@@ -453,27 +468,12 @@
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\gesture-processor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\hit-test-algorithm-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\hover-event-processor.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\long-press-gesture-detector-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\long-press-gesture-processor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\wheel-event-processor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\multi-point-event-util.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pan-gesture-detector-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pan-gesture-processor.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pinch-gesture-detector-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\pinch-gesture-processor.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\tap-gesture-detector-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\tap-gesture-processor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\touch-data-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\events\touch-event-processor.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\bitmap-packed-pixel.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\bitmap-compressed.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\image-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\buffer-image-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\frame-buffer-image-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\encoded-buffer-image-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\nine-patch-image-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\resource-image-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\native-image-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\images\pixel-data-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\render-tasks\render-task-impl.cpp" />
     <ClCompile Include="..\..\..\dali-core\dali\internal\event\render-tasks\render-task-list-impl.cpp" />

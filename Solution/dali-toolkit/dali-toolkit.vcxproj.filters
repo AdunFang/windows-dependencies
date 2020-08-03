@@ -1,19 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\absolute-layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\absolute-layout-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\accessibility-manager\accessibility-manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\accessibility-manager\accessibility-manager-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\controls\alignment\alignment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\alignment\alignment-impl.cpp">
@@ -211,12 +199,6 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\flex-container\flex-container-impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\flex-layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\flex-layout-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\controls\gaussian-blur-view\gaussian-blur-view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -298,43 +280,10 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\focus-manager\keyinput-focus-manager-impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-controller-debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-controller-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\text\layouts\layout-engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-group.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-group-data-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-group-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-item-data-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-item-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\gradient\linear-gradient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\linear-layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\linear-layout-impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\text\logical-model-impl.cpp">
@@ -457,28 +406,13 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\builder\replacement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\animated-image\rolling-gif-image-cache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\animated-image\rolling-image-cache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\scripting\script.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\scripting\script-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\scripting\script-plugin-proxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\controls\scrollable\scrollable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\scrollable\scrollable-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\controls\scroll-bar\scroll-bar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\scroll-bar\scroll-bar-impl.cpp">
@@ -560,9 +494,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\image-loader\sync-image-loader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\controls\table-view\table-view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\table-view\table-view-impl.cpp">
@@ -766,30 +697,6 @@
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\image-visual-shader-factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\grid-locations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\grid-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\grid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\size-negotiation-mapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\layout-transition-data-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\layouting\bin-layout-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\bin-layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\layout-transition-data.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\web-view\web-view-impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -827,6 +734,48 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\text\bitmap-font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\layouting\flex-node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\controls\control\control-renderers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\animated-vector-image\vector-animation-task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\animated-vector-image\vector-animation-thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\controls\video-view\video-view-devel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\asset-manager\asset-manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\arc\arc-visual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\public-api\image-loader\image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\accessibility-manager\accessibility-manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\controls\alignment\alignment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\controls\scroll-bar\scroll-bar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\controls\table-view\table-view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\devel-api\utility\npatch-utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\dali-toolkit\dali-toolkit\internal\visuals\animated-image\rolling-animated-image-cache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

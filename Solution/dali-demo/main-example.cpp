@@ -35,6 +35,9 @@
 //#include "examples/Fpp-Game/game-texture.cpp"
 //#include "examples/Fpp-Game/game-utils.cpp"
 
+//#include "examples/frame-callback/frame-callback.cpp"
+//#include "examples/frame-callback/frame-callback-example.cpp"
+
 //#include "examples/Gradients/Gradients-example.cpp"
 //#include "examples/Hello-World/Hello-World-example.cpp"
 //#include "examples/Homescreen-Benchmark/Homescreen-Benchmark.cpp"

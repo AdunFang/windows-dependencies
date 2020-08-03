@@ -21,29 +21,29 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B645AB4D-59AD-49AD-BC1E-01A18F08B958}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -77,7 +77,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;DALICSHARPBINDER_EXPORTS;DALIWRAPPER_EXPORTS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;uint=unsigned int;_DEBUG;_WINDOWS;_USRDLL;DALICSHARPBINDER_EXPORTS;DALIWRAPPER_EXPORTS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -105,7 +105,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;DALICSHARPBINDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;uint=unsigned int;NDEBUG;_WINDOWS;_USRDLL;DALICSHARPBINDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -138,7 +138,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\absolute-layout.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\adaptor.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\animation.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\application.cpp" />
@@ -150,35 +149,22 @@
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\extents.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\flex-layout.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\font-client.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\grid-layout.cpp" />
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\gestures.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\input-method-context.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\input-method-options.cpp" />
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\keyboard.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\keyboard_focus_manager_wrap.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-group-wrapper-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-group-wrapper.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-item-ptr.cpp">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
-      <UndefinePreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </UndefinePreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-item-wrapper-impl.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-item-wrapper.cpp">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-length.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-measure-spec.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-measured-size.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-size.cpp" />
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\linear-layout.cpp" />
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-controller.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\text-editor.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\text-field.cpp" />
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\text-label.cpp" />
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\transition-effects.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\tts-player.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\version-check.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\view-wrapper-impl-wrap.cpp" />
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h" />
     <ClInclude Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\common.h" />
     <ClInclude Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\DaliWrapper.h" />
     <ClInclude Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\dali_wrap.h" />

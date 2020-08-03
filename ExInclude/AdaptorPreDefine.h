@@ -31,6 +31,32 @@ extern int setenv( const char *__name, const char *__value, int __replace );
 
 extern const char* app_get_data_path();
 
+namespace std
+{
+    extern const char* GetRealName(const char* name);
+    extern int GetRealFileMode(const char* path, int _Mode);
+
+    template<class _Elem, class _Traits>
+    class IFStream : public basic_ifstream<_Elem, _Traits>
+    {
+    public:
+        IFStream(const char* path)
+            :
+            basic_ifstream(GetRealName(path))
+        {
+        }
+
+        IFStream(const char* path, int _Mode)
+            :
+            basic_ifstream(GetRealName(path), _Mode)
+        {
+        }
+    };
+
+    typedef IFStream<char, char_traits<char> > internalIfstream;
+}
+#define ifstream internalIfstream
+
 #endif
 
 #endif

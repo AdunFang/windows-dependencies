@@ -1,0 +1,1014 @@
+/*
+ * Copyright (c) 2020 Samsung Electronics Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+// CLASS HEADER
+#include <dali/internal/window-system/common/window-impl.h>
+
+// EXTERNAL HEADERS
+#include <thread>
+#include <dali/integration-api/core.h>
+#include <dali/public-api/actors/actor.h>
+#include <dali/public-api/actors/layer.h>
+#include <dali/public-api/actors/camera-actor.h>
+#include <dali/public-api/render-tasks/render-task.h>
+#include <dali/public-api/render-tasks/render-task-list.h>
+#include <dali/public-api/rendering/frame-buffer.h>
+#include <dali/devel-api/adaptor-framework/orientation.h>
+#include <dali/integration-api/events/touch-event-integ.h>
+
+// INTERNAL HEADERS
+#include <dali/integration-api/adaptor-framework/render-surface-interface.h>
+#include <dali/internal/graphics/gles/egl-graphics.h>
+#include <dali/internal/window-system/common/event-handler.h>
+#include <dali/internal/window-system/common/orientation-impl.h>
+#include <dali/internal/window-system/common/render-surface-factory.h>
+#include <dali/internal/window-system/common/window-factory.h>
+#include <dali/internal/window-system/common/window-base.h>
+#include <dali/internal/window-system/common/window-system.h>
+#include <dali/internal/window-system/common/window-render-surface.h>
+#include <dali/internal/window-system/common/window-visibility-observer.h>
+
+namespace Dali
+{
+namespace Internal
+{
+namespace Adaptor
+{
+
+namespace
+{
+
+#if defined(DEBUG_ENABLED)
+Debug::Filter* gWindowLogFilter = Debug::Filter::New( Debug::NoLogging, false, "LOG_WINDOW" );
+#endif
+
+} // unnamed namespace
+
+Window* Window::New(const PositionSize& positionSize, const std::string& name, const std::string& className, bool isTransparent)
+{
+  Any surface;
+  return Window::New(surface, positionSize, name, className, isTransparent);
+}
+
+Window* Window::New(Any surface, const PositionSize& positionSize, const std::string& name, const std::string& className, bool isTransparent)
+{
+  Window* window = new Window();
+  window->mIsTransparent = isTransparent;
+  window->Initialize(surface, positionSize, name, className);
+  return window;
+}
+
+Window::Window()
+: mWindowSurface( nullptr ),
+  mWindowBase(),
+  mIsTransparent( false ),
+  mIsFocusAcceptable( true ),
+  mIconified( false ),
+  mOpaqueState( false ),
+  mResizeEnabled( false ),
+  mType( Dali::Window::NORMAL ),
+  mParentWindow( NULL ),
+  mPreferredAngle( Dali::Window::NO_ORIENTATION_PREFERENCE ),
+  mRotationAngle( -1 ),
+  mWindowWidth( 0 ),
+  mWindowHeight( 0 ),
+  mOrientationMode( Internal::Adaptor::Window::OrientationMode::PORTRAIT ),
+  mNativeWindowId( -1 ),
+  mResizedSignal(),
+  mDeleteRequestSignal(),
+  mFocusChangeSignal(),
+  mResizeSignal(),
+  mVisibilityChangedSignal(),
+  mTransitionEffectEventSignal()
+{
+}
+
+Window::~Window()
+{
+  if ( mEventHandler )
+  {
+    mEventHandler->RemoveObserver( *this );
+  }
+}
+
+void Window::Initialize(Any surface, const PositionSize& positionSize, const std::string& name, const std::string& className)
+{
+  // Create a window render surface
+  auto renderSurfaceFactory = Dali::Internal::Adaptor::GetRenderSurfaceFactory();
+  mSurface = renderSurfaceFactory->CreateWindowRenderSurface( positionSize, surface, mIsTransparent );
+  mWindowSurface = static_cast<WindowRenderSurface*>( mSurface.get() );
+
+  // Get a window base
+  mWindowBase = mWindowSurface->GetWindowBase();
+
+  // Connect signals
+  mWindowBase->IconifyChangedSignal().Connect( this, &Window::OnIconifyChanged );
+  mWindowBase->FocusChangedSignal().Connect( this, &Window::OnFocusChanged );
+  mWindowBase->DeleteRequestSignal().Connect( this, &Window::OnDeleteRequest );
+  mWindowBase->TransitionEffectEventSignal().Connect( this, &Window::OnTransitionEffectEvent );
+
+  mWindowSurface->OutputTransformedSignal().Connect( this, &Window::OnOutputTransformed );
+
+  if( !positionSize.IsEmpty() )
+  {
+    AddAuxiliaryHint( "wm.policy.win.user.geometry", "1" );
+    mResizeEnabled = true;
+  }
+
+  SetClass( name, className );
+
+  mWindowSurface->Map();
+
+  mOrientation = Orientation::New( this );
+
+  // Get OrientationMode
+  int screenWidth, screenHeight;
+  WindowSystem::GetScreenSize( screenWidth, screenHeight );
+  if( screenWidth > screenHeight )
+  {
+    mOrientationMode = Internal::Adaptor::Window::OrientationMode::LANDSCAPE;
+  }
+  else
+  {
+    mOrientationMode = Internal::Adaptor::Window::OrientationMode::PORTRAIT;
+  }
+  // For Debugging
+  mNativeWindowId = mWindowBase->GetNativeWindowId();
+}
+
+void Window::OnAdaptorSet(Dali::Adaptor& adaptor)
+{
+  mEventHandler = EventHandlerPtr(new EventHandler( mWindowSurface, *mAdaptor ) );
+  mEventHandler->AddObserver( *this );
+}
+
+void Window::OnSurfaceSet( Dali::RenderSurfaceInterface* surface )
+{
+  mWindowSurface = static_cast<WindowRenderSurface*>( surface );
+}
+
+void Window::SetClass( std::string name, std::string className )
+{
+  mName = name;
+  mClassName = className;
+  mWindowBase->SetClass( name, className );
+}
+
+std::string Window::GetClassName() const
+{
+  return mClassName;
+}
+
+void Window::Raise()
+{
+  mWindowBase->Raise();
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Raise() \n", this, mNativeWindowId );
+}
+
+void Window::Lower()
+{
+  mWindowBase->Lower();
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Lower() \n", this, mNativeWindowId );
+}
+
+void Window::Activate()
+{
+  mWindowBase->Activate();
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Activate() \n", this, mNativeWindowId );
+}
+
+uint32_t Window::GetLayerCount() const
+{
+  return mScene.GetLayerCount();
+}
+
+Dali::Layer Window::GetLayer( uint32_t depth ) const
+{
+  return mScene.GetLayer( depth );
+}
+
+Dali::RenderTaskList Window::GetRenderTaskList() const
+{
+  return mScene.GetRenderTaskList();
+}
+
+void Window::AddAvailableOrientation( Dali::Window::WindowOrientation orientation )
+{
+  if( IsOrientationAvailable( orientation ) == false )
+  {
+    return;
+  }
+
+  bool found = false;
+  int convertedAngle = ConvertToAngle( orientation );
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), AddAvailableOrientation: %d\n", this, mNativeWindowId, convertedAngle );
+  for( std::size_t i = 0; i < mAvailableAngles.size(); i++ )
+  {
+    if( mAvailableAngles[i] == convertedAngle )
+    {
+      found = true;
+      break;
+    }
+  }
+
+  if( !found )
+  {
+    mAvailableAngles.push_back( convertedAngle );
+    SetAvailableAnlges( mAvailableAngles );
+  }
+}
+
+void Window::RemoveAvailableOrientation( Dali::Window::WindowOrientation orientation )
+{
+  if( IsOrientationAvailable( orientation ) == false )
+  {
+    return;
+  }
+
+  int convertedAngle = ConvertToAngle( orientation );
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), RemoveAvailableOrientation: %d\n", this, mNativeWindowId, convertedAngle );
+  for( std::vector< int >::iterator iter = mAvailableAngles.begin();
+       iter != mAvailableAngles.end(); ++iter )
+  {
+    if( *iter == convertedAngle )
+    {
+      mAvailableAngles.erase( iter );
+      break;
+    }
+  }
+
+  SetAvailableAnlges( mAvailableAngles );
+}
+
+void Window::SetPreferredOrientation( Dali::Window::WindowOrientation orientation )
+{
+  if( orientation < Dali::Window::NO_ORIENTATION_PREFERENCE || orientation > Dali::Window::LANDSCAPE_INVERSE )
+  {
+    DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::CheckOrientation: Invalid input orientation [%d]\n", orientation );
+    return;
+  }
+  mPreferredAngle = ConvertToAngle( orientation );
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), SetPreferredOrientation: %d\n", this, mNativeWindowId, mPreferredAngle );
+  mWindowBase->SetPreferredAngle( mPreferredAngle );
+}
+
+Dali::Window::WindowOrientation Window::GetPreferredOrientation()
+{
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), GetPreferredOrientation: %d\n", this, mNativeWindowId, mPreferredAngle );
+  Dali::Window::WindowOrientation preferredOrientation = ConvertToOrientation( mPreferredAngle );
+  return preferredOrientation;
+}
+
+void Window::SetAvailableAnlges( const std::vector< int >& angles )
+{
+  if( angles.size() > 4 )
+  {
+    DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::SetAvailableAnlges: Invalid vector size! [%d]\n", angles.size() );
+    return;
+  }
+
+  mWindowBase->SetAvailableAnlges( angles );
+}
+
+int Window::ConvertToAngle( Dali::Window::WindowOrientation orientation )
+{
+  int convertAngle = static_cast< int >( orientation );
+  if( mOrientationMode == Internal::Adaptor::Window::OrientationMode::LANDSCAPE )
+  {
+    switch( orientation )
+    {
+      case Dali::Window::LANDSCAPE:
+      {
+        convertAngle = 0;
+        break;
+      }
+      case Dali::Window::PORTRAIT:
+      {
+        convertAngle = 90;
+        break;
+      }
+      case Dali::Window::LANDSCAPE_INVERSE:
+      {
+        convertAngle = 180;
+        break;
+      }
+      case Dali::Window::PORTRAIT_INVERSE:
+      {
+        convertAngle = 270;
+        break;
+      }
+      case Dali::Window::NO_ORIENTATION_PREFERENCE:
+      {
+        convertAngle = -1;
+        break;
+      }
+    }
+  }
+  return convertAngle;
+}
+
+Dali::Window::WindowOrientation Window::ConvertToOrientation( int angle ) const
+{
+  Dali::Window::WindowOrientation orientation = static_cast< Dali::Window::WindowOrientation >( angle );
+  if( mOrientationMode == Internal::Adaptor::Window::OrientationMode::LANDSCAPE )
+  {
+    switch( angle )
+    {
+      case 0:
+      {
+        orientation = Dali::Window::LANDSCAPE;
+        break;
+      }
+      case 90:
+      {
+        orientation = Dali::Window::PORTRAIT;
+        break;
+      }
+      case 180:
+      {
+        orientation = Dali::Window::LANDSCAPE_INVERSE;
+        break;
+      }
+      case 270:
+      {
+        orientation = Dali::Window::PORTRAIT_INVERSE;
+        break;
+      }
+      case -1:
+      {
+        orientation = Dali::Window::NO_ORIENTATION_PREFERENCE;
+        break;
+      }
+    }
+  }
+  return orientation;
+}
+
+bool Window::IsOrientationAvailable( Dali::Window::WindowOrientation orientation ) const
+{
+  if( orientation <= Dali::Window::NO_ORIENTATION_PREFERENCE || orientation > Dali::Window::LANDSCAPE_INVERSE )
+  {
+    DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::IsOrientationAvailable: Invalid input orientation [%d]\n", orientation );
+    return false;
+  }
+  return true;
+}
+
+Dali::Any Window::GetNativeHandle() const
+{
+  return mWindowSurface->GetNativeWindow();
+}
+
+void Window::SetAcceptFocus( bool accept )
+{
+  mIsFocusAcceptable = accept;
+
+  mWindowBase->SetAcceptFocus( accept );
+}
+
+bool Window::IsFocusAcceptable() const
+{
+  return mIsFocusAcceptable;
+}
+
+void Window::Show()
+{
+  mVisible = true;
+
+  mWindowBase->Show();
+
+  if( !mIconified )
+  {
+    WindowVisibilityObserver* observer( mAdaptor );
+    observer->OnWindowShown();
+
+    Dali::Window handle( this );
+    mVisibilityChangedSignal.Emit( handle, true );
+  }
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Show(): iconified = %d, visible = %d\n", this, mNativeWindowId, mIconified, mVisible );
+}
+
+void Window::Hide()
+{
+  mVisible = false;
+
+  mWindowBase->Hide();
+
+  if( !mIconified )
+  {
+    WindowVisibilityObserver* observer( mAdaptor );
+    observer->OnWindowHidden();
+
+    Dali::Window handle( this );
+    mVisibilityChangedSignal.Emit( handle, false );
+  }
+
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Hide(): iconified = %d, visible = %d\n", this, mNativeWindowId, mIconified, mVisible );
+}
+
+bool Window::IsVisible() const
+{
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), IsVisible(): iconified = %d, visible = %d\n", this, mNativeWindowId, mIconified, mVisible );
+  return mVisible && !mIconified;
+}
+
+unsigned int Window::GetSupportedAuxiliaryHintCount() const
+{
+  return mWindowBase->GetSupportedAuxiliaryHintCount();
+}
+
+std::string Window::GetSupportedAuxiliaryHint( unsigned int index ) const
+{
+  return mWindowBase->GetSupportedAuxiliaryHint( index );
+}
+
+unsigned int Window::AddAuxiliaryHint( const std::string& hint, const std::string& value )
+{
+  return mWindowBase->AddAuxiliaryHint( hint, value );
+}
+
+bool Window::RemoveAuxiliaryHint( unsigned int id )
+{
+  return mWindowBase->RemoveAuxiliaryHint( id );
+}
+
+bool Window::SetAuxiliaryHintValue( unsigned int id, const std::string& value )
+{
+  return mWindowBase->SetAuxiliaryHintValue( id, value );
+}
+
+std::string Window::GetAuxiliaryHintValue( unsigned int id ) const
+{
+  return mWindowBase->GetAuxiliaryHintValue( id );
+}
+
+unsigned int Window::GetAuxiliaryHintId( const std::string& hint ) const
+{
+  return mWindowBase->GetAuxiliaryHintId( hint );
+}
+
+void Window::SetInputRegion( const Rect< int >& inputRegion )
+{
+  mWindowBase->SetInputRegion( inputRegion );
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+
+  DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::SetInputRegion: x = %d, y = %d, w = %d, h = %d\n", inputRegion.x, inputRegion.y, inputRegion.width, inputRegion.height );
+}
+
+void Window::SetType( Dali::Window::Type type )
+{
+  if( type != mType )
+  {
+    mWindowBase->SetType( type );
+
+    mType = type;
+  }
+}
+
+Dali::Window::Type Window::GetType() const
+{
+  return mType;
+}
+
+bool Window::SetNotificationLevel( Dali::Window::NotificationLevel::Type level )
+{
+  if( mType != Dali::Window::NOTIFICATION )
+  {
+    DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::SetNotificationLevel: Not supported window type [%d]\n", mType );
+    return false;
+  }
+
+  return mWindowBase->SetNotificationLevel( level );
+}
+
+Dali::Window::NotificationLevel::Type Window::GetNotificationLevel() const
+{
+  if( mType != Dali::Window::NOTIFICATION )
+  {
+    DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::GetNotificationLevel: Not supported window type [%d]\n", mType );
+    return Dali::Window::NotificationLevel::NONE;
+  }
+
+  return mWindowBase->GetNotificationLevel();
+}
+
+void Window::SetOpaqueState( bool opaque )
+{
+  mOpaqueState = opaque;
+
+  mWindowBase->SetOpaqueState( opaque );
+
+  DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::SetOpaqueState: opaque = %d\n", opaque );
+}
+
+bool Window::IsOpaqueState() const
+{
+  return mOpaqueState;
+}
+
+bool Window::SetScreenOffMode(Dali::Window::ScreenOffMode::Type screenOffMode)
+{
+  return mWindowBase->SetScreenOffMode( screenOffMode );
+}
+
+Dali::Window::ScreenOffMode::Type Window::GetScreenOffMode() const
+{
+  return mWindowBase->GetScreenOffMode();
+}
+
+bool Window::SetBrightness( int brightness )
+{
+  if( brightness < 0 || brightness > 100 )
+  {
+    DALI_LOG_INFO( gWindowLogFilter, Debug::Verbose, "Window::SetBrightness: Invalid brightness value [%d]\n", brightness );
+    return false;
+  }
+
+  return mWindowBase->SetBrightness( brightness );
+}
+
+int Window::GetBrightness() const
+{
+  return mWindowBase->GetBrightness();
+}
+
+void Window::SetSize( Dali::Window::WindowSize size )
+{
+  if( !mResizeEnabled )
+  {
+    AddAuxiliaryHint( "wm.policy.win.user.geometry", "1" );
+    mResizeEnabled = true;
+  }
+
+  PositionSize oldRect = mSurface->GetPositionSize();
+
+  mWindowSurface->MoveResize( PositionSize( oldRect.x, oldRect.y, size.GetWidth(), size.GetHeight() ) );
+
+  PositionSize newRect = mSurface->GetPositionSize();
+
+  // When surface size is updated, inform adaptor of resizing and emit ResizeSignal
+  if( ( oldRect.width != newRect.width ) || ( oldRect.height != newRect.height ) )
+  {
+    Uint16Pair newSize( newRect.width, newRect.height );
+
+    SurfaceResized();
+
+    mAdaptor->SurfaceResizePrepare( mSurface.get(), newSize );
+
+    DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), SetSize(): resize signal [%d x %d]\n", this, mNativeWindowId, newRect.width, newRect.height );
+
+    Dali::Window handle( this );
+    mResizedSignal.Emit( newSize );
+    mResizeSignal.Emit( handle, newSize );
+
+    mAdaptor->SurfaceResizeComplete( mSurface.get(), newSize );
+  }
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+Dali::Window::WindowSize Window::GetSize() const
+{
+  PositionSize positionSize = mSurface->GetPositionSize();
+
+  return Dali::Window::WindowSize( positionSize.width, positionSize.height );
+}
+
+void Window::SetPosition( Dali::Window::WindowPosition position )
+{
+  if( !mResizeEnabled )
+  {
+    AddAuxiliaryHint( "wm.policy.win.user.geometry", "1" );
+    mResizeEnabled = true;
+  }
+
+  PositionSize oldRect = mSurface->GetPositionSize();
+
+  mWindowSurface->MoveResize( PositionSize( position.GetX(), position.GetY(), oldRect.width, oldRect.height ) );
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+Dali::Window::WindowPosition Window::GetPosition() const
+{
+  PositionSize positionSize = mSurface->GetPositionSize();
+
+  return Dali::Window::WindowPosition( positionSize.x, positionSize.y );
+}
+
+void Window::SetPositionSize( PositionSize positionSize )
+{
+  if( !mResizeEnabled )
+  {
+    AddAuxiliaryHint( "wm.policy.win.user.geometry", "1" );
+    mResizeEnabled = true;
+  }
+
+  PositionSize oldRect = mSurface->GetPositionSize();
+
+  mWindowSurface->MoveResize( positionSize );
+
+  PositionSize newRect = mSurface->GetPositionSize();
+
+  // When surface size is updated, inform adaptor of resizing and emit ResizeSignal
+  if( ( oldRect.width != newRect.width ) || ( oldRect.height != newRect.height ) )
+  {
+    Uint16Pair newSize( newRect.width, newRect.height );
+
+    SurfaceResized();
+
+    mAdaptor->SurfaceResizePrepare( mSurface.get(), newSize );
+
+    DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), SetPositionSize():resize signal [%d x %d]\n", this, mNativeWindowId, newRect.width, newRect.height );
+    Dali::Window handle( this );
+    mResizedSignal.Emit( newSize );
+    mResizeSignal.Emit( handle, newSize );
+    mAdaptor->SurfaceResizeComplete( mSurface.get(), newSize );
+  }
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+Dali::Layer Window::GetRootLayer() const
+{
+  return mScene.GetRootLayer();
+}
+
+void Window::SetTransparency( bool transparent )
+{
+  mWindowSurface->SetTransparency( transparent );
+}
+
+bool Window::GrabKey( Dali::KEY key, KeyGrab::KeyGrabMode grabMode )
+{
+  return mWindowBase->GrabKey( key, grabMode );
+}
+
+bool Window::UngrabKey( Dali::KEY key )
+{
+  return mWindowBase->UngrabKey( key );
+}
+
+bool Window::GrabKeyList( const Dali::Vector< Dali::KEY >& key, const Dali::Vector< KeyGrab::KeyGrabMode >& grabMode, Dali::Vector< bool >& result )
+{
+  return mWindowBase->GrabKeyList( key, grabMode, result );
+}
+
+bool Window::UngrabKeyList( const Dali::Vector< Dali::KEY >& key, Dali::Vector< bool >& result )
+{
+  return mWindowBase->UngrabKeyList( key, result );
+}
+
+void Window::OnIconifyChanged( bool iconified )
+{
+  if( iconified )
+  {
+    mIconified = true;
+
+    if( mVisible )
+    {
+      WindowVisibilityObserver* observer( mAdaptor );
+      observer->OnWindowHidden();
+
+      Dali::Window handle( this );
+      mVisibilityChangedSignal.Emit( handle, false );
+    }
+
+    DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Iconified: visible = %d\n", this, mNativeWindowId, mVisible );
+  }
+  else
+  {
+    mIconified = false;
+
+    if( mVisible )
+    {
+      WindowVisibilityObserver* observer( mAdaptor );
+      observer->OnWindowShown();
+
+      Dali::Window handle( this );
+      mVisibilityChangedSignal.Emit( handle, true );
+    }
+
+    DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), Deiconified: visible = %d\n", this, mNativeWindowId, mVisible );
+  }
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+void Window::OnFocusChanged( bool focusIn )
+{
+  Dali::Window handle( this );
+  mFocusChangeSignal.Emit( handle, focusIn );
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+void Window::OnOutputTransformed()
+{
+  PositionSize positionSize = mSurface->GetPositionSize();
+  SurfaceResized();
+  mAdaptor->SurfaceResizePrepare( mSurface.get(), Adaptor::SurfaceSize( positionSize.width, positionSize.height ) );
+  mAdaptor->SurfaceResizeComplete( mSurface.get(), Adaptor::SurfaceSize( positionSize.width, positionSize.height ) );
+}
+
+void Window::OnDeleteRequest()
+{
+  mDeleteRequestSignal.Emit();
+}
+
+void Window::OnTransitionEffectEvent( DevelWindow::EffectState state, DevelWindow::EffectType type )
+{
+  Dali::Window handle( this );
+  mTransitionEffectEventSignal.Emit( handle, state, type );
+}
+
+void Window::OnTouchPoint( Dali::Integration::Point& point, int timeStamp )
+{
+  FeedTouchPoint( point, timeStamp );
+}
+
+void Window::OnWheelEvent( Dali::Integration::WheelEvent& wheelEvent )
+{
+  FeedWheelEvent( wheelEvent );
+}
+
+void Window::OnKeyEvent( Dali::Integration::KeyEvent& keyEvent )
+{
+  FeedKeyEvent( keyEvent );
+}
+
+void Window::OnRotation( const RotationEvent& rotation )
+{
+  mRotationAngle = rotation.angle;
+  mWindowWidth = rotation.width;
+  mWindowHeight = rotation.height;
+
+  // Notify that the orientation is changed
+  mOrientation->OnOrientationChange( rotation );
+
+  mWindowSurface->RequestRotation( mRotationAngle, mWindowWidth, mWindowHeight );
+
+  SurfaceResized();
+
+  mAdaptor->SurfaceResizePrepare( mSurface.get(), Adaptor::SurfaceSize( mWindowWidth, mWindowHeight ) );
+
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), OnRotation(): resize signal emit [%d x %d]\n", this, mNativeWindowId, mWindowWidth, mWindowHeight );
+  // Emit signal
+  Dali::Window handle( this );
+  mResizedSignal.Emit( Dali::Window::WindowSize( mWindowWidth, mWindowHeight ) );
+  mResizeSignal.Emit( handle, Dali::Window::WindowSize( mWindowWidth, mWindowHeight ) );
+
+  mAdaptor->SurfaceResizeComplete( mSurface.get(), Adaptor::SurfaceSize( mWindowWidth, mWindowHeight ) );
+}
+
+void Window::OnPause()
+{
+  if( mEventHandler )
+  {
+    mEventHandler->Pause();
+  }
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+void Window::OnResume()
+{
+  if( mEventHandler )
+  {
+    mEventHandler->Resume();
+  }
+
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetFullSwapNextFrame();
+  }
+}
+
+void Window::RecalculateTouchPosition( Integration::Point& point )
+{
+  Vector2 position = point.GetScreenPosition();
+  Vector2 convertedPosition;
+
+  switch( mRotationAngle )
+  {
+    case 90:
+    {
+      convertedPosition.x = static_cast<float>( mWindowWidth ) - position.y;
+      convertedPosition.y = position.x;
+      break;
+    }
+    case 180:
+    {
+      convertedPosition.x = static_cast<float>( mWindowWidth ) - position.x;
+      convertedPosition.y = static_cast<float>( mWindowHeight ) - position.y;
+      break;
+    }
+    case 270:
+    {
+      convertedPosition.x = position.y;
+      convertedPosition.y = static_cast<float>( mWindowHeight ) - position.x;
+      break;
+    }
+    default:
+    {
+      convertedPosition = position;
+      break;
+    }
+  }
+
+  point.SetScreenPosition( convertedPosition );
+}
+
+Dali::Window Window::Get( Dali::Actor actor )
+{
+  Internal::Adaptor::Window* windowImpl = nullptr;
+
+  if ( Internal::Adaptor::Adaptor::IsAvailable() )
+  {
+    Dali::Internal::Adaptor::Adaptor& adaptor = Internal::Adaptor::Adaptor::GetImplementation( Internal::Adaptor::Adaptor::Get() );
+    windowImpl = dynamic_cast<Internal::Adaptor::Window*>( adaptor.GetWindow( actor ) );
+    if( windowImpl )
+    {
+      return Dali::Window( windowImpl );
+    }
+  }
+
+  return Dali::Window();
+}
+
+void Window::SetParent( Dali::Window& parent )
+{
+  if ( DALI_UNLIKELY( parent ) )
+  {
+    mParentWindow = parent;
+    Dali::Window self = Dali::Window( this );
+    // check circular parent window setting
+    if ( Dali::DevelWindow::GetParent( parent ) == self )
+    {
+      Dali::DevelWindow::Unparent( parent );
+    }
+    mWindowBase->SetParent( GetImplementation( mParentWindow ).mWindowBase );
+  }
+}
+
+void Window::Unparent()
+{
+  mWindowBase->SetParent( nullptr );
+  mParentWindow.Reset();
+}
+
+Dali::Window Window::GetParent()
+{
+  return mParentWindow;
+}
+
+Dali::Window::WindowOrientation Window::GetCurrentOrientation() const
+{
+  DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), GetCurrentOrientation(): %d\n", this, mNativeWindowId, mRotationAngle );
+  return ConvertToOrientation( mRotationAngle );
+}
+
+void Window::SetAvailableOrientations( const Dali::Vector<Dali::Window::WindowOrientation>& orientations )
+{
+  Dali::Vector<float>::SizeType count = orientations.Count();
+  for( Dali::Vector<float>::SizeType index = 0; index < count; ++index )
+  {
+    if( IsOrientationAvailable( orientations[index] ) == false )
+    {
+      DALI_LOG_ERROR("Window::SetAvailableOrientations, invalid orientation: %d\n", orientations[index]);
+      continue;
+    }
+
+    bool found = false;
+    int convertedAngle = ConvertToAngle( orientations[index] );
+
+    for( std::size_t i = 0; i < mAvailableAngles.size(); i++ )
+    {
+      if( mAvailableAngles[i] == convertedAngle )
+      {
+        found = true;
+        break;
+      }
+    }
+
+    if( !found )
+    {
+      DALI_LOG_RELEASE_INFO( "Window (%p), WinId (%d), SetAvailableOrientations: %d\n", this, mNativeWindowId, convertedAngle );
+      mAvailableAngles.push_back( convertedAngle );
+    }
+  }
+  SetAvailableAnlges( mAvailableAngles );
+}
+
+int32_t Window::GetNativeId() const
+{
+  return mWindowBase->GetNativeWindowId();
+}
+
+void Window::SetDamagedAreas(std::vector<Dali::Rect<int>>& areas)
+{
+  GraphicsInterface& graphics = mAdaptor->GetGraphicsInterface();
+  EglGraphics* eglGraphics = static_cast<EglGraphics*>(&graphics);
+  if (eglGraphics)
+  {
+    eglGraphics->SetDamagedAreas(areas);
+  }
+}
+
+} // Adaptor
+
+} // Internal
+
+} // Dali

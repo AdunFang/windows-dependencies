@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\extents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\absolute-layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\adaptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,44 +75,23 @@
     <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\flex-layout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-length.cpp">
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-measured-size.cpp">
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-measure-spec.cpp">
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\text-label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-size.cpp">
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\transition-effects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-group-wrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-group-wrapper-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-item-ptr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-item-wrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\layout-item-wrapper-impl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\grid-layout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\linear-layout.cpp">
+    <ClCompile Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\gestures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\dali-csharp-binder\dali-csharp-binder\src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>

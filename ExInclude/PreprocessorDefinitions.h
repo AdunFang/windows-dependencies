@@ -2,7 +2,7 @@
 #define _STDAFX_INCLUDE_
 
 #ifdef __cplusplus
-#include <../windows-dependencies/ExInclude/atomic>
+#include <atomic>
 #include <cstdarg>
 #include <ctime>
 

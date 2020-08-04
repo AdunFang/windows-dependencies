@@ -1,0 +1,15 @@
+<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="15000"
+            EndAction="Cancel"
+			LoopCount="1"
+            Name="scrollAnimation">
+
+	<Transition.Behaviors>
+	  <x:Array Type="{x:Type AnimationBehavior}">
+        <AnimationBehavior Key="BtnPosition" Property="Position" DestValue="0,-600,0" />
+		<AnimationBehavior Key="Image0Position" Property="Position" DestValue="0,-200,0" />
+	  </x:Array>
+	</Transition.Behaviors>
+
+ </Transition>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.TestStaticResourcePage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+  <ContentPage.Resources>
+    <ResourceDictionary>
+	  <x:String x:Key="urlKey">
+      ../../dali-windows-backend/csharp-demo/res/images/ambient/default/picture_m_1.jpg
+    </x:String>
+    <x:String x:Key="positionKey">
+      200, 200
+    </x:String>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ImageView Name="img1" ResourceUrl="{StaticResource urlKey}" Position2D="{DynamicResource positionKey}" />
+</ContentPage>

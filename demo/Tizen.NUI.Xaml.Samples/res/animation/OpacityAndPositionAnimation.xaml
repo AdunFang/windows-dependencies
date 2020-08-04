@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="3000"
+            LoopCount="3"
+            EndAction="Cancel"
+            Name="Type1">
+  <Transition.Behaviors>
+    <x:Array Type="{x:Type AnimationBehavior}">
+      <AnimationBehavior Key="DestOpacity" Property="Opacity" DestValue="0.5" StartTime="0" EndTime="1000" />
+      <AnimationBehavior Key="DestPosition" Property="Position" DestValue="300,100,0" StartTime="1000" EndTime="3000" />
+    </x:Array>
+  </Transition.Behaviors>
+</Transition>
+

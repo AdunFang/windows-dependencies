@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.AnimationWithXamlDemoPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:b="clr-namespace:Tizen.NUI.Xaml.Forms.BaseComponents;assembly=Tizen.NUI.Xaml"
+  xmlns:u="clr-namespace:Tizen.NUI.Xaml.UIComponents;assembly=Tizen.NUI.Xaml.UIComponents"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+  <ContentPage.TransitionNames>
+    <x:Array Type="{x:Type x:String}">
+      <x:String>OpacityAndPositionAnimation</x:String>
+      <x:String>OrientationAnimation</x:String>
+    </x:Array>
+  </ContentPage.TransitionNames>
+ 
+  <b:TextLabel x:Name="label" Name ="label" Text="AnimationTest" Position2D="100,500" Size2D="300,50"/>
+  
+  <b:TextLabel x:Name="orientation" Text="orientationAnimation" Position2D="100,320" Size2D="400,50" />
+    
+  <u:PushButton x:Name="Click" RightFocusableView="{x:Reference orientationCheck}" LabelText="Click" Size2D="400,80" Position2D="100,200" />
+  
+  <u:PushButton x:Name="orientationCheck" LeftFocusableView="{x:Reference Click}" LabelText="orientationCheck" Size2D="400,80" Position2D="600,200" />
+  
+</ContentPage>

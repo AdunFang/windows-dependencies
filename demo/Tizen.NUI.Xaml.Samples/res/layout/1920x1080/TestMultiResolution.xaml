@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.TestMultiResolution"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ImageView x:Name="ImageOne" Name="title" ResourceUrl="../../res/images/AmbientScreenUXControl/Cut/traffic_content.png" Position2D="0,0" Size2D="400,800" />
+    <ImageView x:Name="ImageTwo" Name="left" ResourceUrl="../../res/images/AmbientScreenUXControl/Cut/traffic_widget.png" Position2D="500,0" Size2D="400,400" />
+</ContentPage>

@@ -1,0 +1,28 @@
+﻿<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="800"
+            LoopCount="1"
+            EndAction="Cancel"
+            Name="StickerShow">
+  <Transition.Properties>
+    <x:Array Type="{x:Type x:String}">
+      <x:String>Opacity</x:String>
+    </x:Array>
+  </Transition.Properties>
+  <Transition.DestValue>
+    <x:Array Type="{x:Type x:String}">
+      <x:String>1.0</x:String>
+    </x:Array>
+  </Transition.DestValue>
+  <Transition.StartTime>
+    <x:Array Type="{x:Type x:Int32}">
+      <x:Int32>0</x:Int32>
+    </x:Array>
+  </Transition.StartTime>
+  <Transition.EndTime>
+    <x:Array Type="{x:Type x:Int32}">
+      <x:Int32>500</x:Int32>
+    </x:Array>
+  </Transition.EndTime>
+</Transition>
+

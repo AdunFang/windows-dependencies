@@ -1,0 +1,14 @@
+<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="2000"
+            EndAction="Cancel"
+			LoopCount="1"
+            Name="quickScrollAnimation">
+			
+	<Transition.Behaviors>
+		<x:Array Type="{x:Type AnimationBehavior}">
+			<AnimationBehavior Key="LayerPosition" Property="Position" DestValue="0,-1920,0" />
+		</x:Array>
+	</Transition.Behaviors>
+
+</Transition>

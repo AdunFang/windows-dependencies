@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.ViewToViewPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:b="clr-namespace:Tizen.NUI.BaseComponents;assembly=Tizen.NUI"
+  xmlns:u="clr-namespace:Tizen.NUI.UIComponents;assembly=Tizen.NUI"
+  xmlns:l="clr-namespace:Tizen.NUI.Examples;"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  <ContentPage.XamlResources>
+    <ResourceDictionary>
+      <l:FloatToRotationConverter x:Key="floatToRotationConverter" />
+    </ResourceDictionary>
+  </ContentPage.XamlResources>
+  <b:TextLabel Text="ROTATION" BindingContext="{x:Reference slider}" Orientation="{Binding Path=Value, Converter={StaticResource floatToRotationConverter}}"
+      Position2D="50,50" Size2D="300,50" HorizontalAlignment="Center" VerticalAlignment="Center" PivotPoint="Center" />
+
+  <u:Slider x:Name="slider" Name="slider" LowerBound="0" UpperBound="360" Value="10" ShowPopup="true" 
+          ShowValue="true" ValuePrecision="1" Position2D="50,200" Size2D="300,20" />
+
+  <b:TextLabel Text="{Binding Path=Value, Source={x:Reference slider}, StringFormat='The angle is {0:F0} degrees'}" Position2D="50,300" Size2D="300,50" />
+</ContentPage>

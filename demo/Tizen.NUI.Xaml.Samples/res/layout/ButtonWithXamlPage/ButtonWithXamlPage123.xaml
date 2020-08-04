@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<b:View x:Class="Tizen.NUI.Examples.ButtonWithXamlPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:b="clr-namespace:Tizen.NUI.BaseComponents;assembly=Tizen.NUI"
+  xmlns:u="clr-namespace:Tizen.NUI.UIComponents;assembly=Tizen.NUI"
+  xmlns:l="clr-namespace:Tizen.NUI.Examples"
+  xmlns:c="clr-namespace:Tizen.NUI.Components;assembly=Tizen.NUI.Components"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  <c:Button x:Name="text" Position2D="200,300" Size2D="300,200" Text="Hello World!">
+    <x:Arguments>
+      <c:ButtonStyle>
+        <c:ButtonStyle.Text>
+          <TextLabelStyle>
+            <TextLabelStyle.Text>
+              <Selector x:TypeArguments="x:String" Normal="button" Pressed="pressed!!"/>
+            </TextLabelStyle.Text>
+            <TextLabelStyle.PointSize>
+              <Selector x:TypeArguments="x:Single?" Normal="10.0" Pressed="20.0" />
+            </TextLabelStyle.PointSize>
+          </TextLabelStyle>
+        </c:ButtonStyle.Text>
+      </c:ButtonStyle>
+    </x:Arguments>
+  </c:Button>
+</b:View>

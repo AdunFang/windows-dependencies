@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.DataTriggerDemoPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:b="clr-namespace:Tizen.NUI.BaseComponents;assembly=Tizen.NUI"
+  xmlns:u="clr-namespace:Tizen.NUI.UIComponents;assembly=Tizen.NUI"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+  <ContentPage.XamlResources>
+    <ResourceDictionary>
+      <Style x:Key="CustomStyle" TargetType="ImageView">
+        <Style.Triggers>
+          <Trigger TargetType="ImageView" Property="ResourceUrl" Value="*DemoRes*/images/AmbientScreenUXControl/Cut/bixby_detail.png">
+            <Trigger.Setters>
+              <Setter Property="PositionX" Value="200" />
+            </Trigger.Setters>
+          </Trigger>
+          <Trigger TargetType="ImageView" Property="ResourceUrl" Value="*DemoRes*/images/AmbientScreenUXControl/Cut/bixby_sendtophone.png">
+            <Trigger.Setters>
+              <Setter Property="PositionX" Value="500" />
+            </Trigger.Setters>
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.XamlResources>
+  
+  <b:TextLabel Text="Hi" Position2D="700,100" Size2D="900,50" x:Name="Label">
+    <TextLabel.Style>
+      <Style TargetType="TextLabel">
+        <Style.Triggers>
+          <DataTrigger TargetType="TextLabel" Binding="{Binding Path=LabelText, Source={x:Reference Click}}" Value="123">
+            <Setter Property="Position2D" Value="900,100"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </TextLabel.Style>
+  </b:TextLabel>
+ 
+  <u:PushButton x:Name="Click" LabelText="Click" Size2D="400,80" Position2D="1000,200" />
+</ContentPage>

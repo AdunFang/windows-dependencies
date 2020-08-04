@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.BixbyWidgetPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  
+  <ContentPage.TransitionNames>
+    <x:Array Type="{x:Type x:String}">
+      <x:String>AmbientScreenUX/contentAlphaAni</x:String>
+	  <x:String>AmbientScreenUX/alphaAniOfBixString</x:String>
+    </x:Array>
+  </ContentPage.TransitionNames>
+
+  <View x:Name="RootView" BackgroundImage="*DemoRes*/images/bixby/bg.png" Size2D="1920,1080">
+    <ImageView x:Name="Time" ResourceUrl="*DemoRes*/images/bixby/time.png" Position2D="25,310" Size2D="880,230"  />
+    <ImageView x:Name="Date" ResourceUrl="*DemoRes*/images/bixby/date_weather.png" Position2D="120,600" Size2D="680,50" />
+    <ImageView x:Name="Widget" Opacity="0" ResourceUrl="*DemoRes*/images/bixby/map_widget1.png" Position2D="1320,20" Size2D="600,380" />
+	<ImageView x:Name="BixString" Opacity="0" ResourceUrl="*DemoRes*/images/Cut/AmbientScreenUXControl/bixby_detail.png" Position2D="600,1000" Size2D="652,35" />
+  </View>
+</ContentPage>

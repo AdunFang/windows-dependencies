@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.KeypadPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:l="clr-namespace:Tizen.NUI.Examples;assembly=TestXaml"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <TextLabel Text="{Binding DisplayText}" Size2D="265,75" Position2D="45,200" VerticalAlignment="Center" >
+      <TextLabel.BindingContext>
+        <l:KeypadViewModel x:Name="keypad" />
+      </TextLabel.BindingContext>
+    </TextLabel>
+    <PushButton BindingContext="{x:Reference keypad}" LabelText="&#x21E6;" Command="{Binding DeleteCharCommand}" Focusable="true" Size2D="120,75" Position2D="310,200" />
+    <TableView Focusable="true" Size2D="390,320" Position2D="45,280" Rows="4" Columns="3" CellPadding="5, 2">
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="1" Command="{Binding AddCharCommand}" CommandParameter="1" CellIndex="0,0" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="2" Command="{Binding AddCharCommand}" CommandParameter="2" CellIndex="0,1" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="3" Command="{Binding AddCharCommand}" CommandParameter="3" CellIndex="0,2" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="4" Command="{Binding AddCharCommand}" CommandParameter="4" CellIndex="1,0" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="5" Command="{Binding AddCharCommand}" CommandParameter="5" CellIndex="1,1" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="6" Command="{Binding AddCharCommand}" CommandParameter="6" CellIndex="1,2" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="7" Command="{Binding AddCharCommand}" CommandParameter="7" CellIndex="2,0" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="8" Command="{Binding AddCharCommand}" CommandParameter="8" CellIndex="2,1" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="9" Command="{Binding AddCharCommand}" CommandParameter="9" CellIndex="2,2" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="*" Command="{Binding AddCharCommand}" CommandParameter="*" CellIndex="3,0" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="0" Command="{Binding AddCharCommand}" CommandParameter="0" CellIndex="3,1" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+      <PushButton BindingContext="{x:Reference keypad}"  LabelText="#" Command="{Binding AddCharCommand}" CommandParameter="#" CellIndex="3,2" 
+                  Focusable="true" WidthResizePolicy="FillToParent" HeightResizePolicy="FillToParent" />
+    </TableView>
+
+
+</ContentPage>

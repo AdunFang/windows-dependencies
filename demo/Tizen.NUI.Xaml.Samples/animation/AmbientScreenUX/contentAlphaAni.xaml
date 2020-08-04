@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="1000"
+            LoopCount="1"
+            EndAction="Cancel"
+            Name="contentAlphaAni">
+  <Transition.Behaviors>
+    <x:Array Type="{x:Type AnimationBehavior}">
+      <AnimationBehavior Key="DestOpacity" Property="Opacity" DestValue="1" StartTime="0" EndTime="1000" />
+    </x:Array>
+  </Transition.Behaviors>
+</Transition>
+

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="3000"
+            LoopCount="3"
+            EndAction="Cancel"
+            x:Name="Type1">
+  <Transition.Behaviors>
+    <x:Array Type="{x:Type AnimationBehavior}">
+      <AnimationBehavior Key="DestSize" Property="Size" DestValue="300, 150, 0" />
+    </x:Array>
+  </Transition.Behaviors>
+</Transition>
+

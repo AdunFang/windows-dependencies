@@ -1,0 +1,13 @@
+﻿<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="500"
+            LoopCount="3"
+            EndAction="Cancel"
+            Name="Orientation">
+  <Transition.Behaviors>
+    <x:Array Type="{x:Type AnimationBehavior}">
+      <AnimationBehavior Key="DestOrientation" Property="Orientation" DestValue="D:180, 1, 0, 0" />
+    </x:Array>
+  </Transition.Behaviors>
+</Transition>
+

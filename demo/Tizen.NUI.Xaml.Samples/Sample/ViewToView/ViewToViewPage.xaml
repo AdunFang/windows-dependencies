@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.ViewToViewPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+  <TextLabel Text="ROTATION" BindingContext="{x:Reference slider}" Rotation="{Binding Path=Value}"
+      Position2D="50,50" Size2D="300,50" HorizontalAlignment="Center" VerticalAlignment="Center" PivotPoint="Center" />
+  <!-- <PushButton LabelText="Click" Position2D="50,50" Size2D="300,50" Clicked="OnClicked" /> -->
+  <Slider x:Name="slider" Name="slider" LowerBound="0" UpperBound="360" Value="10" ShowPopup="true" 
+          ShowValue="true" ValuePrecision="1" Position2D="50,200" Size2D="300,20" />
+  <TextLabel BindingContext="{x:Reference slider}" Text="{Binding Value, StringFormat='The angle is {0:F0} degrees'}" Position2D="50,300" Size2D="300,50" />
+</ContentPage>

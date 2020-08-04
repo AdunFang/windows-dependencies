@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.ClockPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:l="clr-namespace:Tizen.NUI.Examples;assembly=TestXaml"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <TextLabel Text="{Binding DateTime, StringFormat='{0:T}'}" PositionY="50"  >
+      <TextLabel.BindingContext>
+        <l:ClockViewModel />
+      </TextLabel.BindingContext>
+    </TextLabel>
+
+</ContentPage>

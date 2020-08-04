@@ -1,0 +1,13 @@
+<Transition xmlns="http://tizen.org/Tizen.NUI/2018/XAML"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Duration="15000"
+            EndAction="Cancel"
+			LoopCount="1"
+            Name="zoomAnimation">
+
+	<Transition.Behaviors>
+	  <x:Array Type="{x:Type AnimationBehavior}">
+        <AnimationBehavior Key="DestPixelArea" Property="PixelArea" DestValue="0.0,0.0,1.0,1.0" />
+	  </x:Array>
+	</Transition.Behaviors>
+</Transition>

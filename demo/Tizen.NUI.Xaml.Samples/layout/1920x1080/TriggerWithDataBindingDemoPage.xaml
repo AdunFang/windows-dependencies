@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tizen.NUI.Examples.TriggerWithDataBindingDemoPage"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:b="clr-namespace:Tizen.NUI.BaseComponents;assembly=Tizen.NUI"
+  xmlns:u="clr-namespace:Tizen.NUI.UIComponents;assembly=Tizen.NUI"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+  <ContentPage.XamlResources>
+    <ResourceDictionary>
+      <Style x:Key="CustomStyle" TargetType="ImageView">
+        <Style.Triggers>
+          <Trigger TargetType="ImageView" Property="ResourceUrl" Value="*DemoRes*/images/AmbientScreenUXControl/Cut/bixby_detail.png">
+            <Trigger.Setters>
+              <Setter Property="PositionX" Value="200" />
+            </Trigger.Setters>
+          </Trigger>
+          <Trigger TargetType="ImageView" Property="ResourceUrl" Value="*DemoRes*/images/AmbientScreenUXControl/Cut/bixby_sendtophone.png">
+            <Trigger.Setters>
+              <Setter Property="PositionX" Value="500" />
+            </Trigger.Setters>
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.XamlResources>
+
+  <b:ImageView x:Name="ImageView" Position2D="0,0" Size2D="400,400" BindingContext="{x:Reference label}" ResourceUrl="{Binding Text, Mode=OneWay}"  Style="{StaticResource CustomStyle}"/>
+
+  <b:TextLabel x:Name="label" Name ="label" Text="*DemoRes*/images/AmbientScreenUXControl/Cut/traffic_content.png" Position2D="700,100" Size2D="900,50" 
+             HorizontalAlignment="Center" VerticalAlignment="Center" PivotPoint="Center" />
+  
+  <u:PushButton x:Name="Click" LabelText="Click" Size2D="400,80" Position2D="1000,200" />
+</ContentPage>

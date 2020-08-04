@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<b:View x:Class="Tizen.NUI.Examples.EmbeddedCSharpCode"
+  xmlns="http://tizen.org/Tizen.NUI/2018/XAML"
+  xmlns:b="clr-namespace:Tizen.NUI.BaseComponents;assembly=Tizen.NUI"
+  xmlns:u="clr-namespace:Tizen.NUI.UIComponents;assembly=Tizen.NUI"
+  xmlns:l="clr-namespace:Tizen.NUI.Examples"
+  xmlns:c="clr-namespace:Tizen.NUI.Components;assembly=Tizen.NUI.Components"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <c:Button x:Name="btn" Position2D="200,300" Size2D="300,200" Text="Hello World!"  ClickEvent="btn_Click">
+  </c:Button>
+  <x:Code>
+    <![CDATA[
+              void btn_Click(object sender,ClickEventArgs e)
+              {
+                btn.Text="hello Button123!!";
+              }   
+            ]]>
+  </x:Code>
+</b:View>

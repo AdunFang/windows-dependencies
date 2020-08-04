@@ -1,0 +1,5 @@
+LIBRARY libcapi-appfw-app-common.so
+EXPORTS
+RegisterCreateStringCallback @1
+app_get_resource_path @2
+app_get_id @3
